@@ -7,10 +7,10 @@
  */
 
 /**
- * Description of distribuidorBE
+ * Description of clientesDAO
  *
  * @author MAC
  */
-class distribuidorBE {
+class clientesDAO {
     //put your code here
 }

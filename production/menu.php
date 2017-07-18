@@ -44,19 +44,19 @@ include "BL/saldoBL.class.php";
                   </li>
                   <li><a><i class="fa fa-edit"></i> Distribuidor<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Mantenimientos de clientes</a></li>
-                      <li><a href="form_advanced.html">Recarga de clientes</a></li>
-                      <li><a href="form_validation.html">Mantenimiento de anexos</a></li>
-                      <li><a href="form_wizards.html">Reporte de recargas</a></li>
+                      <li><a href="gestion_clientes.php">Mantenimientos de clientes</a></li>
+                      <li><a href="operacion_clientes.php">Recarga de clientes</a></li>
+                      <li><a href="gestion_anexos.php">Mantenimiento de anexos</a></li>
+                      <li><a href="reporte_recargas_dist.php">Reporte de recargas</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-desktop"></i> Administrador<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">Mantimientos de Distribuidores</a></li>
-                      <li><a href="media_gallery.html">Recarga de distribuidores</a></li>
-                      <li><a href="typography.html">Reporte de recargas</a></li>
-                      <li><a href="form_validation.html">Mantenimiento de anexos</a></li>
-                      <li><a href="icons.html">Mantenimiento de tarifas</a></li>
+                        <li><a href="gestion_distribuidor.php">Mantenimientos de Distribuidores</a></li>
+                        <li><a href="gestion_clientes_maestro.php">Mantenimiento de usuarios</a></li>
+                        <li><a href="operacion_multicanal.php">Operaciones</a></li>
+                        <li><a href="reporte_operaciones.php">Reporte de recargas</a></li>                 
+                        <li><a href="gestion_tarifas.php">Mantenimiento de tarifas</a></li>
                     </ul>
                   </li>
                  
