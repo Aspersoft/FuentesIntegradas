@@ -2,6 +2,7 @@
 session_start();
 include 'Db.php';
 include "BL/anexosBL.class.php";
+
 ?>
 <html lang="en">
   <head>
@@ -30,6 +31,10 @@ include "BL/anexosBL.class.php";
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <!-- jupload Theme Style
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/jupload/css/style.css">-->
+    <link rel="stylesheet" href="js/jupload/css/jquery.fileupload.css"> 
   </head>
 
   <body class="nav-md">
@@ -86,11 +91,66 @@ include "BL/anexosBL.class.php";
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                   
-                      
-                      
-                      
-                      
+                   <form  method="post" id="formulario">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Nombre de Campaña</label>
+                        <input type="text" class="form-control" id="campania" placeholder="Campaña" name="campania">
+                      </div>
+                       <div class="form-group">
+                        <label for="exampleInputEmail1">Mensaje</label>
+                        <input type="text" class="form-control" id="mensaje" placeholder="mensaje" name="mensaje">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Cantidad de variables</label>
+                        <select class="form-control" id="variables">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </select>
+                      </div>
+                       <br>
+                      <!-- Cargador inicio --> 
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button" id ="cargaSMS">
+                        <i class="glyphicon glyphicon-plus" ></i>
+
+                        <span>Cargar registros SMS</span>
+                        <!-- The file input field used as target for the file upload widget -->
+                        <input id="fileupload" type="file" accept=".csv" name="files[]" >
+                         <input type="hidden" id="hiddenfichero" name="hiddenfichero" value="">    
+                         <input type="hidden" id="adjuntofile" name="adjuntofile" value="">   
+                         
+                         
+                    </span>
+                    <!-- The global progress bar 
+                    <!-- The container for the uploaded files -->
+                    <br>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Fichero Cargado</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <div id="files" class="files"></div>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger" id="btn-enviar">Iniciar distribucion</button>
+                     <!-- Cargador fin --> 
+   </form>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Mensajes enviados</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <div id="files" class="files"><div id="resp"></div></div>
+                            </ul>
+                        </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -107,6 +167,7 @@ include "BL/anexosBL.class.php";
         <!-- footer content -->
         <footer>
           <div class="pull-right">
+              
             Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
           <div class="clearfix"></div>
@@ -145,5 +206,67 @@ include "BL/anexosBL.class.php";
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
     <script src="../build/js/dropzone.js"></script>
+    <!-- jupload Theme Scripts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <script src="js/jupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="js/jupload/js/jquery.iframe-transport.js"></script>
+    <script src="js/jupload/js/jquery.fileupload.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"> </script><!---->
+    <script>
+        $(function () {
+        'use strict';
+        // Change this to the location of your server-side upload handler:
+        var url = window.location.hostname === 'blueimp.github.io' ?
+                    '//jquery-file-upload.appspot.com/' : 'server/php/';
+        $('#fileupload').fileupload({
+            url: url,
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $('#cargaSMS').attr("disabled", true);
+                    $('<p/>').text(file.name).appendTo('#files');
+                    $('#adjuntofile').val(file.name);
+                });
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+            }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });
+      function ProcesarEnvio(){
+        //alert($("#files").text()+" - "+$("#campania").val()+" - "+$("#hiddenfichero").val());  
+      }
+      //
+      $(document).ready(function(){
+            $("#variables").change(function(){
+                $('#hiddenfichero').val($(this).val());
+            });
+        });
+        
+      $(document).on('ready',function(){       
+    $('#btn-enviar').click(function(){
+        var url = "envio_sms.php";
+        
+        $.ajax({                        
+           type: "POST",                 
+           url: url,                     
+           data: $("#formulario").serialize(), 
+           success: function(data)             
+           {
+             $('#resp').html(data);               
+           }
+       });
+       ProcesarEnvio();
+       return false;
+       
+    });
+});  
+      </script>
+      
   </body>
 </html>
